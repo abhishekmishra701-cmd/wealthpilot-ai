@@ -6,6 +6,15 @@
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+<div id="publicGate" class="public-gate">
+  <div class="public-hero">
+    <div class="public-logo">W</div>
+    <h1>WealthPilot AI</h1>
+    <p>Smart wealth, simply explained.</p>
+    <div class="public-security"><span>🔒</span> Secure access to your personal wealth dashboard</div>
+  </div>
+</div>
+<div id="appShell" style="display:none;">
 <header class="topbar">
   <div class="brand"><span class="logo">W</span><div><b>WealthPilot AI</b><small>Smart wealth, simply explained</small></div></div>
   <nav><button data-view="dashboard">Dashboard</button><button data-view="portfolio">Portfolio</button><button data-view="goals">Goals</button><button data-view="advisor">AI Advisor</button></nav>
@@ -13,12 +22,21 @@
 </header>
 
 <main>
-<div id="authPanel" class="panel" style="margin-bottom:18px">
-  <div class="sectionhead"><div><h2>WealthPilot Account</h2><p class="muted" id="authStatus">Not signed in — demo data remains local.</p></div>
-  <div style="display:flex;gap:8px"><button class="primary" id="authSignIn">Sign in</button><button id="authCreate">Create account</button></div></div>
-  <div id="authForm" style="display:none;margin-top:14px">
-    <div class="chatrow"><input id="authEmail" type="email" placeholder="Email"><input id="authPassword" type="password" placeholder="Password"><button class="primary" id="authSubmit">Sign in</button></div>
-    <p class="muted" id="authHint">Choose Sign in or Create account. Email verification may be required by your Supabase Auth settings.</p>
+<div id="authPanel" class="auth-panel">
+  <div class="auth-brand"><span class="auth-logo">W</span><div><h2>Welcome to WealthPilot AI</h2><p>Securely access your personal wealth dashboard.</p></div></div>
+  <div class="auth-tabs">
+    <button id="authSignIn" class="auth-tab active">Sign in</button>
+    <button id="authCreate" class="auth-tab">Create account</button>
+    <button id="authOtp" class="auth-tab">OTP login</button>
+  </div>
+  <div id="authStatus" class="auth-status">Secure login • Your data stays protected</div>
+  <div id="authForm">
+    <div class="auth-fields">
+      <label>Email address<input id="authEmail" type="email" autocomplete="email" placeholder="you@example.com"></label>
+      <label id="passwordLabel">Password<input id="authPassword" type="password" autocomplete="current-password" placeholder="Minimum 6 characters"></label>
+    </div>
+    <button class="auth-submit" id="authSubmit">Sign in securely</button>
+    <p id="authHint" class="auth-hint">Use your email and password to access your portfolio.</p>
   </div>
 </div>
 <section id="dashboard" class="view active">
@@ -55,5 +73,5 @@
 <section id="advisor" class="view"><div class="sectionhead"><div><h1>AI Advisor</h1><p class="muted">Personalized insights from your portfolio and goals.</p></div></div><article class="panel advisor"><div class="chat"><div class="bubble ai">Hello! I can help you understand allocation, risk, diversification and your financial goals.</div><div class="suggestions"><button>Review my portfolio</button><button>How is my risk?</button><button>Am I diversified?</button></div><div class="chatrow"><input id="question" placeholder="Ask a question…"><button class="primary" id="ask">Ask</button></div></div></article></section>
 </main>
 <div id="toast" class="toast"></div>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="supabase.js"></script><script src="app.js"></script><script src="v33.js"></script>
-</body></html>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="supabase.js"></script><script src="app.js"></script><script src="v33.js"></script><script src="v33_2.js"></script><script src="v33_3.js"></script>
+</div></body></html>

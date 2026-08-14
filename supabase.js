@@ -101,3 +101,16 @@ async function listGoals() {
   if (error) throw error;
   return data || [];
 }
+
+async function sendEmailOtp(email) {
+  const client=getSupabase();
+  const {data,error}=await client.auth.signInWithOtp({email, options:{shouldCreateUser:false}});
+  if (error) throw error;
+  return data;
+}
+async function verifyEmailOtp(email, token) {
+  const client=getSupabase();
+  const {data,error}=await client.auth.verifyOtp({email, token, type:"email"});
+  if (error) throw error;
+  return data;
+}

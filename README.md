@@ -1,14 +1,21 @@
-# WealthPilot AI V33.1 — Auth Flow Fix
+# WealthPilot AI V33.3 — Authentication Gate
 
-Fixes the authentication mode-selection bug found during live QA.
+Critical QA fix from live testing.
 
-Verified design:
-- Separate Sign in and Create account controls
-- Submit button text reflects selected mode
-- Sign-in uses Supabase password authentication
-- Create-account uses Supabase signup
-- Handles email-verification-required response without falsely claiming login
-- Existing V33 owner-scoped CRUD helpers retained
+## Fixed
+- Dashboard/portfolio content is hidden for unauthenticated visitors.
+- Public state shows only the WealthPilot branding + authentication card.
+- Successful Supabase password login, signup-with-session, or OTP verification reveals the app.
+- Authenticated session loss returns the user to the public gate.
+- Prevents demo portfolio values from appearing to an unauthenticated user.
+- Auth status remains tied to the actual Supabase session.
 
-Release gate:
-Actual signup/login/email-verification/session persistence still requires live browser E2E testing.
+## Release gate
+Do not mark V33.3 complete until live browser testing proves:
+1. Fresh/incognito visitor sees no portfolio data.
+2. Wrong credentials do not reveal the dashboard.
+3. Correct credentials reveal the dashboard.
+4. Logout hides the dashboard again.
+5. Refresh while authenticated preserves access.
+6. Refresh while signed out keeps the dashboard hidden.
+7. OTP login reveals the dashboard only after successful verification.
