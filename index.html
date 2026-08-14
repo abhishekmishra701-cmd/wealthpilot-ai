@@ -18,7 +18,17 @@
 <header class="topbar">
   <div class="brand"><span class="logo">W</span><div><b>WealthPilot AI</b><small>Smart wealth, simply explained</small></div></div>
   <nav><button data-view="dashboard">Dashboard</button><button data-view="portfolio">Portfolio</button><button data-view="goals">Goals</button><button data-view="advisor">AI Advisor</button></nav>
-  <div class="controls"><select id="lang"><option value="en">English</option><option value="hi">हिन्दी</option></select><select id="currency"><option>INR</option><option>USD</option><option>EUR</option><option>GBP</option><option>AED</option></select></div>
+  <div class="controls">
+  <select id="lang"><option value="en">English</option><option value="hi">हिन्दी</option></select>
+  <select id="currency"><option>INR</option><option>USD</option><option>EUR</option><option>GBP</option><option>AED</option></select>
+  <div class="account-menu">
+    <button id="accountBtn" class="account-btn" aria-haspopup="true" aria-expanded="false"><span id="accountAvatar">A</span><span id="accountEmail">Account</span><span class="chevron">⌄</span></button>
+    <div id="accountDropdown" class="account-dropdown" hidden>
+      <div class="account-email" id="accountEmailDropdown">Signed in</div>
+      <button id="logoutBtn" class="logout-btn">Log out securely</button>
+    </div>
+  </div>
+</div>
 </header>
 
 <main>
@@ -73,5 +83,5 @@
 <section id="advisor" class="view"><div class="sectionhead"><div><h1>AI Advisor</h1><p class="muted">Personalized insights from your portfolio and goals.</p></div></div><article class="panel advisor"><div class="chat"><div class="bubble ai">Hello! I can help you understand allocation, risk, diversification and your financial goals.</div><div class="suggestions"><button>Review my portfolio</button><button>How is my risk?</button><button>Am I diversified?</button></div><div class="chatrow"><input id="question" placeholder="Ask a question…"><button class="primary" id="ask">Ask</button></div></div></article></section>
 </main>
 <div id="toast" class="toast"></div>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="supabase.js"></script><script src="app.js"></script><script src="v33.js"></script><script src="v33_2.js"></script><script src="v33_3.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="supabase.js"></script><script src="app.js"></script><script src="v33.js"></script><script src="v33_2.js"></script><script src="v33_3.js"></script><script src="v33_4.js"></script>
 </div></body></html>
