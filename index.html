@@ -13,6 +13,14 @@
 </header>
 
 <main>
+<div id="authPanel" class="panel" style="margin-bottom:18px">
+  <div class="sectionhead"><div><h2>WealthPilot Account</h2><p class="muted" id="authStatus">Not signed in — demo data remains local.</p></div>
+  <button class="primary" id="authToggle">Sign in</button></div>
+  <div id="authForm" style="display:none;margin-top:14px">
+    <div class="chatrow"><input id="authEmail" type="email" placeholder="Email"><input id="authPassword" type="password" placeholder="Password"><button class="primary" id="authSubmit">Continue</button></div>
+    <p class="muted" id="authHint">Use Sign in or create an account. Email verification may be required by your Supabase Auth settings.</p>
+  </div>
+</div>
 <section id="dashboard" class="view active">
   <div class="hero"><div><p class="eyebrow" data-i18n="welcome">Your complete wealth overview</p><h1 data-i18n="dashboard">Portfolio Dashboard</h1><p class="muted">Track, understand and improve your wealth in one place.</p></div></div>
   <div class="cards">
@@ -47,5 +55,5 @@
 <section id="advisor" class="view"><div class="sectionhead"><div><h1>AI Advisor</h1><p class="muted">Personalized insights from your portfolio and goals.</p></div></div><article class="panel advisor"><div class="chat"><div class="bubble ai">Hello! I can help you understand allocation, risk, diversification and your financial goals.</div><div class="suggestions"><button>Review my portfolio</button><button>How is my risk?</button><button>Am I diversified?</button></div><div class="chatrow"><input id="question" placeholder="Ask a question…"><button class="primary" id="ask">Ask</button></div></div></article></section>
 </main>
 <div id="toast" class="toast"></div>
-<script src="app.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="supabase.js"></script><script src="app.js"></script><script src="v33.js"></script>
 </body></html>
