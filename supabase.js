@@ -2,37 +2,75 @@ const SUPABASE_URL = "https://kqdmfcrzxwuttobcfjpk.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_C_xmXmeWiCLpy_XuN7zYjA_dULjcjs8";
 
 let supabaseClient = null;
+
 function getSupabase() {
   if (!supabaseClient && window.supabase) {
-    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
+      auth: {
+        persistSession: true,
+        autoRefreshToken: true,
+        detectSessionInUrl: true
+      }
+    });
   }
   return supabaseClient;
 }
 
 async function currentUser() {
-  const client=getSupabase();
+  const client = getSupabase();
   if (!client) throw new Error("Supabase client unavailable");
-  const {data,error}=await client.auth.getUser();
+  const { data, error } = await client.auth.getUser();
   if (error) throw error;
   return data.user;
 }
 
-async function signUp(email,password) {
-  const client=getSupabase();
-  const {data,error}=await client.auth.signUp({email,password});
+async function signUp(email, password) {
+  const client = getSupabase();
+  const { data, error } = await client.auth.signUp({ email, password });
   if (error) throw error;
   return data;
 }
-async function signIn(email,password) {
-  const client=getSupabase();
-  const {data,error}=await client.auth.signInWithPassword({email,password});
+
+async function signIn(email, password) {
+  const client = getSupabase();
+  const { data, error } = await client.auth.signInWithPassword({ email, password });
   if (error) throw error;
   return data;
 }
+
 async function signOut() {
-  const client=getSupabase();
-  const {error}=await client.auth.signOut();
+  const client = getSupabase();
+  const { error } = await client.auth.signOut();
   if (error) throw error;
+}
+
+async function sendEmailOtp(email) {
+  const client = getSupabase();
+  const { data, error } = await client.auth.signInWithOtp({
+    email,
+    options: { shouldCreateUser: false }
+  });
+  if (error) throw error;
+  return data;
+}
+
+async function verifyEmailOtp(email, token) {
+  const client = getSupabase();
+  const { data, error } = await client.auth.verifyOtp({
+    email,
+    token,
+    type: "email"
+  });
+  if (error) throw error;
+  return data;
+}
+
+async function resetPassword(email) {
+  const client = getSupabase();
+  const redirectTo = `${window.location.origin}/`;
+  const { data, error } = await client.auth.resetPasswordForEmail(email, { redirectTo });
+  if (error) throw error;
+  return data;
 }
 
 async function createPortfolio(name,baseCurrency="INR") {
@@ -100,17 +138,4 @@ async function listGoals() {
     .select("*").eq("user_id",user.id).order("created_at",{ascending:false});
   if (error) throw error;
   return data || [];
-}
-
-async function sendEmailOtp(email) {
-  const client=getSupabase();
-  const {data,error}=await client.auth.signInWithOtp({email, options:{shouldCreateUser:false}});
-  if (error) throw error;
-  return data;
-}
-async function verifyEmailOtp(email, token) {
-  const client=getSupabase();
-  const {data,error}=await client.auth.verifyOtp({email, token, type:"email"});
-  if (error) throw error;
-  return data;
 }

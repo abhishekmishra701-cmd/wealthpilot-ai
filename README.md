@@ -1,38 +1,29 @@
-# WealthPilot AI V33.3 — Authentication Gate
+# WealthPilot AI V33.6 — Auth Hardening + Premium Login
 
-Critical QA fix from live testing.
+## Major fixes
+- Single auth controller; legacy V33.2–V33.5 auth controllers removed.
+- Supabase session is the single source of truth.
+- Persistent session + automatic token refresh explicitly enabled.
+- Protected dashboard is never rendered as the public state.
+- Logout clears session and sensitive UI fields.
+- Password is never written by the app to localStorage/sessionStorage.
+- Sign-in uses `current-password`; account creation uses `new-password`.
+- Inline OTP verification UI with 30-second resend cooldown.
+- Password visibility toggle.
+- Forgot-password email flow.
+- More polished, responsive, security-first login experience.
+- Account menu + secure logout retained.
 
-## Fixed
-- Dashboard/portfolio content is hidden for unauthenticated visitors.
-- Public state shows only the WealthPilot branding + authentication card.
-- Successful Supabase password login, signup-with-session, or OTP verification reveals the app.
-- Authenticated session loss returns the user to the public gate.
-- Prevents demo portfolio values from appearing to an unauthenticated user.
-- Auth status remains tied to the actual Supabase session.
-
-## Release gate
-Do not mark V33.3 complete until live browser testing proves:
-1. Fresh/incognito visitor sees no portfolio data.
-2. Wrong credentials do not reveal the dashboard.
-3. Correct credentials reveal the dashboard.
-4. Logout hides the dashboard again.
-5. Refresh while authenticated preserves access.
-6. Refresh while signed out keeps the dashboard hidden.
-7. OTP login reveals the dashboard only after successful verification.
-
-
-## V33.4 QA fix
-- Added authenticated account menu to the top-right navigation.
-- Added explicit "Log out securely" action.
-- Logout is driven by Supabase `auth.signOut()`.
-- After logout, the protected application shell is hidden.
-- Auth state listener returns the user to the public gate when the session ends.
-- Included `app.js` in the release bundle to avoid accidental omission during upload.
-
-## Release gate
-V33.4 is not complete until live tests pass:
-1. Logged-in user sees account menu/email.
-2. Logout clears session and hides dashboard.
-3. Direct production URL after logout shows auth gate.
-4. Browser refresh after logout remains gated.
-5. Back navigation does not expose the protected shell.
+## Required live QA
+1. Incognito: dashboard hidden.
+2. Correct password login: dashboard opens.
+3. Refresh while logged in: session remains.
+4. Close/reopen browser: session behavior matches intended product policy.
+5. Logout: dashboard hides and auth form resets.
+6. Direct URL after logout: dashboard stays hidden.
+7. Wrong password: no dashboard.
+8. OTP send + verify: dashboard opens only after valid OTP.
+9. Resend cooldown works.
+10. Forgot password email flow works.
+11. No raw password appears in local/session storage.
+12. RLS isolation tests pass before production sign-off.

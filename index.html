@@ -7,11 +7,76 @@
 </head>
 <body>
 <div id="publicGate" class="public-gate">
-  <div class="public-hero">
-    <div class="public-logo">W</div>
-    <h1>WealthPilot AI</h1>
-    <p>Smart wealth, simply explained.</p>
-    <div class="public-security"><span>🔒</span> Secure access to your personal wealth dashboard</div>
+  <div class="public-shell">
+    <div class="public-hero">
+      <div class="public-logo">W</div>
+      <div class="public-kicker">SMART WEALTH • SIMPLY EXPLAINED</div>
+      <h1>WealthPilot AI</h1>
+      <p>One secure place to understand, track and improve your wealth.</p>
+      <div class="hero-points">
+        <span>Portfolio clarity</span><span>Goal planning</span><span>AI insights</span>
+      </div>
+    </div>
+
+<div id="authPanel" class="auth-panel" aria-label="WealthPilot authentication">
+  <div class="auth-top">
+    <div class="auth-logo">W</div>
+    <div>
+      <div class="auth-kicker">PRIVATE WEALTH SPACE</div>
+      <h2 id="authTitle">Welcome back</h2>
+      <p id="authSubtitle">Sign in to see your personal portfolio, goals and insights.</p>
+    </div>
+  </div>
+
+  <div class="auth-tabs" role="tablist" aria-label="Authentication options">
+    <button id="authSignIn" class="auth-tab active" type="button">Sign in</button>
+    <button id="authCreate" class="auth-tab" type="button">Create account</button>
+    <button id="authOtp" class="auth-tab" type="button">Email OTP</button>
+  </div>
+
+  <div class="auth-trust-row">
+    <span>🔒 Secure authentication</span>
+    <span>↻ Session auto-refresh</span>
+    <span>◉ Private portfolio</span>
+  </div>
+
+  <div id="authStatus" class="auth-status" role="status" aria-live="polite">Secure login • Your data stays protected</div>
+
+  <form id="authForm" novalidate>
+    <div class="auth-fields">
+      <label>Email address
+        <input id="authEmail" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com" required>
+      </label>
+      <label id="passwordLabel">Password
+        <div class="password-wrap">
+          <input id="authPassword" type="password" autocomplete="current-password" placeholder="Enter your password" minlength="6">
+          <button id="togglePassword" class="password-toggle" type="button" aria-label="Show password">Show</button>
+        </div>
+      </label>
+    </div>
+
+    <div id="forgotRow" class="auth-links">
+      <button id="forgotPassword" type="button" class="link-btn">Forgot password?</button>
+    </div>
+
+    <div id="otpArea" class="otp-area" hidden>
+      <label>6-digit verification code
+        <input id="otpCode" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="123456">
+      </label>
+      <button id="resendOtp" type="button" class="secondary-btn">Resend code</button>
+    </div>
+
+    <button class="auth-submit" id="authSubmit" type="submit">Sign in securely</button>
+    <p id="authHint" class="auth-hint">Your session stays active across refreshes until you sign out or it expires.</p>
+  </form>
+
+  <div class="auth-footer">
+    <span>WealthPilot AI</span>
+    <span>•</span>
+    <span>Built with security-first access controls</span>
+  </div>
+</div>
+
   </div>
 </div>
 <div id="appShell" style="display:none;">
@@ -32,23 +97,7 @@
 </header>
 
 <main>
-<div id="authPanel" class="auth-panel">
-  <div class="auth-brand"><span class="auth-logo">W</span><div><h2>Welcome to WealthPilot AI</h2><p>Securely access your personal wealth dashboard.</p></div></div>
-  <div class="auth-tabs">
-    <button id="authSignIn" class="auth-tab active">Sign in</button>
-    <button id="authCreate" class="auth-tab">Create account</button>
-    <button id="authOtp" class="auth-tab">OTP login</button>
-  </div>
-  <div id="authStatus" class="auth-status">Secure login • Your data stays protected</div>
-  <div id="authForm">
-    <div class="auth-fields">
-      <label>Email address<input id="authEmail" type="email" autocomplete="email" placeholder="you@example.com"></label>
-      <label id="passwordLabel">Password<input id="authPassword" type="password" autocomplete="current-password" placeholder="Minimum 6 characters"></label>
-    </div>
-    <button class="auth-submit" id="authSubmit">Sign in securely</button>
-    <p id="authHint" class="auth-hint">Use your email and password to access your portfolio.</p>
-  </div>
-</div>
+
 <section id="dashboard" class="view active">
   <div class="hero"><div><p class="eyebrow" data-i18n="welcome">Your complete wealth overview</p><h1 data-i18n="dashboard">Portfolio Dashboard</h1><p class="muted">Track, understand and improve your wealth in one place.</p></div></div>
   <div class="cards">
@@ -83,5 +132,11 @@
 <section id="advisor" class="view"><div class="sectionhead"><div><h1>AI Advisor</h1><p class="muted">Personalized insights from your portfolio and goals.</p></div></div><article class="panel advisor"><div class="chat"><div class="bubble ai">Hello! I can help you understand allocation, risk, diversification and your financial goals.</div><div class="suggestions"><button>Review my portfolio</button><button>How is my risk?</button><button>Am I diversified?</button></div><div class="chatrow"><input id="question" placeholder="Ask a question…"><button class="primary" id="ask">Ask</button></div></div></article></section>
 </main>
 <div id="toast" class="toast"></div>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="supabase.js"></script><script src="app.js"></script><script src="v33.js"></script><script src="v33_2.js"></script><script src="v33_3.js"></script><script src="v33_4.js"></script>
-</div></body></html>
+
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase.js"></script>
+<script src="app.js"></script>
+<script src="v33_6_auth.js"></script>
+</body></html>
