@@ -15,10 +15,10 @@
 <main>
 <div id="authPanel" class="panel" style="margin-bottom:18px">
   <div class="sectionhead"><div><h2>WealthPilot Account</h2><p class="muted" id="authStatus">Not signed in — demo data remains local.</p></div>
-  <button class="primary" id="authToggle">Sign in</button></div>
+  <div style="display:flex;gap:8px"><button class="primary" id="authSignIn">Sign in</button><button id="authCreate">Create account</button></div></div>
   <div id="authForm" style="display:none;margin-top:14px">
-    <div class="chatrow"><input id="authEmail" type="email" placeholder="Email"><input id="authPassword" type="password" placeholder="Password"><button class="primary" id="authSubmit">Continue</button></div>
-    <p class="muted" id="authHint">Use Sign in or create an account. Email verification may be required by your Supabase Auth settings.</p>
+    <div class="chatrow"><input id="authEmail" type="email" placeholder="Email"><input id="authPassword" type="password" placeholder="Password"><button class="primary" id="authSubmit">Sign in</button></div>
+    <p class="muted" id="authHint">Choose Sign in or Create account. Email verification may be required by your Supabase Auth settings.</p>
   </div>
 </div>
 <section id="dashboard" class="view active">

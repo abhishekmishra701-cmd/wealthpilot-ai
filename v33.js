@@ -2,19 +2,44 @@ let authMode="signin";
 const oldToast=window.toast;
 function notify(msg){if(typeof oldToast==="function")oldToast(msg);else console.log(msg)}
 
+function setAuthMode(mode){
+  authMode=mode;
+  const submit=document.getElementById("authSubmit");
+  const hint=document.getElementById("authHint");
+  const create=document.getElementById("authCreate");
+  const signin=document.getElementById("authSignIn");
+  document.getElementById("authForm").style.display="block";
+  submit.textContent=mode==="signin"?"Sign in":"Create account";
+  hint.textContent=mode==="signin"
+    ?"Sign in to load your real portfolio data."
+    :"Create your WealthPilot account. Email verification may be required.";
+  signin.className=mode==="signin"?"primary":"";
+  create.className=mode==="signup"?"primary":"";
+}
 function bindAuth(){
-  const toggle=document.getElementById("authToggle"), form=document.getElementById("authForm"), submit=document.getElementById("authSubmit");
-  toggle.onclick=()=>{form.style.display=form.style.display==="none"?"block":"none";authMode="signin";toggle.textContent=form.style.display==="none"?"Sign in":"Create account"};
-  submit.onclick=async()=>{
+  document.getElementById("authSignIn").onclick=()=>setAuthMode("signin");
+  document.getElementById("authCreate").onclick=()=>setAuthMode("signup");
+
+  document.getElementById("authSubmit").onclick=async()=>{
     try{
-      const email=document.getElementById("authEmail").value.trim(), password=document.getElementById("authPassword").value;
+      const email=document.getElementById("authEmail").value.trim();
+      const password=document.getElementById("authPassword").value;
       if(!email||password.length<6) throw new Error("Enter a valid email and a password of at least 6 characters.");
-      if(authMode==="signin") await signIn(email,password); else await signUp(email,password);
-      await refreshAuth();
-      notify("Authentication successful.");
+      if(authMode==="signin"){
+        await signIn(email,password);
+        await refreshAuth();
+        notify("Signed in successfully.");
+      }else{
+        const result=await signUp(email,password);
+        if(result.user && !result.session){
+          notify("Account created. Check your email if verification is required.");
+        }else{
+          await refreshAuth();
+          notify("Account created and signed in.");
+        }
+      }
     }catch(e){notify(e.message||"Authentication failed.");}
   };
-  document.getElementById("authToggle").ondblclick=()=>{authMode=authMode==="signin"?"signup":"signin";document.getElementById("authHint").textContent=authMode==="signin"?"Sign in to load your real portfolio data.":"Create your WealthPilot account. Email verification may be required.";};
 }
 async function refreshAuth(){
   try{
@@ -25,6 +50,8 @@ async function refreshAuth(){
       const ps=await listPortfolios();
       notify(`Connected to Supabase. ${ps.length} portfolio(s) found.`);
     }
-  }catch(e){document.getElementById("authStatus").textContent="Not signed in — demo data remains local.";}
+  }catch(e){
+    document.getElementById("authStatus").textContent="Not signed in — demo data remains local.";
+  }
 }
 document.addEventListener("DOMContentLoaded",()=>{bindAuth();refreshAuth();});

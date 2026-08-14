@@ -1,13 +1,14 @@
-# WealthPilot AI V33 — Supabase CRUD Integration
+# WealthPilot AI V33.1 — Auth Flow Fix
 
-Adds a real Supabase client using the project's publishable browser key, Auth helpers, and owner-scoped CRUD functions for:
-- portfolios
-- holdings
-- transactions
-- goals
+Fixes the authentication mode-selection bug found during live QA.
 
-The publishable key is safe for browser use when RLS is correctly configured. Service-role secrets are never included.
+Verified design:
+- Separate Sign in and Create account controls
+- Submit button text reflects selected mode
+- Sign-in uses Supabase password authentication
+- Create-account uses Supabase signup
+- Handles email-verification-required response without falsely claiming login
+- Existing V33 owner-scoped CRUD helpers retained
 
-Important release gate:
-- This package is prepared and statically validated.
-- Real account sign-in, database CRUD, RLS isolation and email verification must be tested in the deployed browser before V33 is marked complete.
+Release gate:
+Actual signup/login/email-verification/session persistence still requires live browser E2E testing.
