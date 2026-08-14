@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>WealthPilot AI</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><span class="logo">W</span><div><b>WealthPilot AI</b><small>Smart wealth, simply explained</small></div></div>
+  <nav><button data-view="dashboard">Dashboard</button><button data-view="portfolio">Portfolio</button><button data-view="goals">Goals</button><button data-view="advisor">AI Advisor</button></nav>
+  <div class="controls"><select id="lang"><option value="en">English</option><option value="hi">हिन्दी</option></select><select id="currency"><option>INR</option><option>USD</option><option>EUR</option><option>GBP</option><option>AED</option></select></div>
+</header>
+
+<main>
+<section id="dashboard" class="view active">
+  <div class="hero"><div><p class="eyebrow" data-i18n="welcome">Your complete wealth overview</p><h1 data-i18n="dashboard">Portfolio Dashboard</h1><p class="muted">Track, understand and improve your wealth in one place.</p></div></div>
+  <div class="cards">
+    <article class="card"><span>Net Worth</span><strong id="netWorth">₹15,34,250</strong><em id="overall">↑ 14.8% overall</em></article>
+    <article class="card"><span>Invested Amount</span><strong id="invested">₹12,45,000</strong><em>Across 18 holdings</em></article>
+    <article class="card"><span>Total Gain</span><strong id="gain">₹2,89,250</strong><em>Unrealized + realized</em></article>
+    <article class="card"><span>Portfolio Health</span><strong>82/100</strong><em>Healthy</em></article>
+  </div>
+  <div class="grid2">
+    <article class="panel"><div class="panelhead"><h2>Portfolio Performance</h2><button class="textbtn" data-view="portfolio">View details →</button></div><div class="chart" id="chart"></div></article>
+    <article class="panel"><h2>Quick Actions</h2><div class="actions"><button data-view="portfolio">View Holdings</button><button data-view="goals">Add Goal</button><button data-view="advisor">Ask AI Advisor</button><button data-view="portfolio">Add Transaction</button></div></article>
+  </div>
+  <article class="panel"><h2>Asset Allocation</h2><div class="allocation"><div class="donut"></div><div><b>Equity 58%</b><b>Debt 22%</b><b>US 12%</b><b>Other 8%</b></div></div></article>
+</section>
+
+<section id="portfolio" class="view">
+  <div class="sectionhead"><div><h1>Portfolio</h1><p class="muted">Holdings, performance and allocation</p></div><button class="primary" data-action="add">+ Add Investment</button></div>
+  <div class="tabs"><button class="tab active" data-tab="holdings">Holdings</button><button class="tab" data-tab="performance">Performance</button><button class="tab" data-tab="allocation">Allocation</button><button class="tab" data-tab="transactions">Transactions</button></div>
+  <div id="holdings" class="tabview active"><article class="panel"><div class="tablewrap"><table><thead><tr><th>Asset</th><th>Value</th><th>Return</th><th>Status</th></tr></thead><tbody>
+  <tr><td>VOO</td><td class="money" data-inr="218400">₹2,18,400</td><td>+18.4%</td><td><span class="pill">Healthy</span></td></tr>
+  <tr><td>SCHD</td><td class="money" data-inr="146800">₹1,46,800</td><td>+11.2%</td><td><span class="pill">Healthy</span></td></tr>
+  <tr><td>Nifty 50</td><td class="money" data-inr="128500">₹1,28,500</td><td>+14.7%</td><td><span class="pill">Healthy</span></td></tr>
+  <tr><td>AMD</td><td class="money" data-inr="112300">₹1,12,300</td><td>+22.1%</td><td><span class="pill">Healthy</span></td></tr>
+  </tbody></table></div></article></div>
+  <div id="performance" class="tabview"><article class="panel"><h2>Performance</h2><div class="bigmetric">+14.8%</div><p class="muted">Overall portfolio return</p><div class="chart tall" id="chart2"></div></article></div>
+  <div id="allocation" class="tabview"><article class="panel"><h2>Allocation</h2><div class="allocation"><div class="donut"></div><div><b>Equity 58%</b><b>Debt 22%</b><b>US 12%</b><b>Other 8%</b></div></div></article></div>
+  <div id="transactions" class="tabview"><article class="panel"><h2>Recent Transactions</h2><div class="empty">No transactions synced yet. Connect your account to import them.</div></article></div>
+</section>
+
+<section id="goals" class="view"><div class="sectionhead"><div><h1>Goals</h1><p class="muted">Plan and track your financial goals.</p></div><button class="primary" data-action="addgoal">+ Add Goal</button></div><div class="goalgrid"><article class="panel goal"><h2>Retirement</h2><strong>₹2.4 Cr</strong><p>Target: Age 50</p><div class="progress"><i style="width:42%"></i></div><small>42% on track</small></article><article class="panel goal"><h2>Emergency Fund</h2><strong>₹6,00,000</strong><p>Target: 12 months</p><div class="progress"><i style="width:76%"></i></div><small>76% complete</small></article></div></section>
+
+<section id="advisor" class="view"><div class="sectionhead"><div><h1>AI Advisor</h1><p class="muted">Personalized insights from your portfolio and goals.</p></div></div><article class="panel advisor"><div class="chat"><div class="bubble ai">Hello! I can help you understand allocation, risk, diversification and your financial goals.</div><div class="suggestions"><button>Review my portfolio</button><button>How is my risk?</button><button>Am I diversified?</button></div><div class="chatrow"><input id="question" placeholder="Ask a question…"><button class="primary" id="ask">Ask</button></div></div></article></section>
+</main>
+<div id="toast" class="toast"></div>
+<script src="app.js"></script>
+</body></html>
