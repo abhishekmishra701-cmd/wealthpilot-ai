@@ -61,9 +61,9 @@
 
     <div id="otpArea" class="otp-area" hidden>
       <label>6-digit verification code
-        <input id="otpCode" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="123456">
+        <input id="otpCode" type="text" inputmode="numeric" pattern="[0-9]{6}" autocomplete="one-time-code" maxlength="6" minlength="6" placeholder="123456" aria-label="6 digit verification code">
       </label>
-      <button id="resendOtp" type="button" class="secondary-btn">Resend code</button>
+      <button id="resendOtp" type="button" class="secondary-btn" disabled>Resend code</button>
     </div>
 
     <button class="auth-submit" id="authSubmit" type="submit">Sign in securely</button>
