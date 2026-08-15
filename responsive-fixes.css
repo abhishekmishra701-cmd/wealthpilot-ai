@@ -1,0 +1,70 @@
+/* Responsive interaction fixes — V33.7 */
+/* Keep header controls from overlapping on narrow/mobile viewports. */
+@media (max-width: 700px) {
+  .topbar {
+    gap: 8px;
+    padding: 0 10px;
+  }
+
+  .controls {
+    margin-left: auto;
+    align-items: center;
+    gap: 5px;
+    min-width: 0;
+  }
+
+  .controls select {
+    width: auto;
+    max-width: 82px;
+    min-width: 0;
+    padding: 8px 5px;
+    font-size: 12px;
+  }
+
+  .account-menu {
+    flex: 0 0 auto;
+    z-index: 20;
+  }
+
+  .account-btn {
+    position: relative;
+    z-index: 21;
+    min-width: 38px;
+  }
+}
+
+@media (max-width: 430px) {
+  .topbar {
+    height: 64px;
+  }
+
+  .brand {
+    min-width: 0;
+  }
+
+  .brand > div {
+    display: none;
+  }
+
+  .logo {
+    width: 34px;
+    height: 34px;
+  }
+
+  .controls select {
+    max-width: 76px;
+    padding-left: 4px;
+    padding-right: 4px;
+  }
+
+  .account-btn {
+    width: 38px;
+    height: 38px;
+    justify-content: center;
+  }
+}
+
+/* The account menu must remain above adjacent form controls. */
+.account-dropdown {
+  z-index: 1001;
+}
