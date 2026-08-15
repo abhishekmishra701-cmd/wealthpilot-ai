@@ -2,6 +2,8 @@ const { test, expect } = require('@playwright/test');
 
 const email = process.env.E2E_TEST_EMAIL;
 const password = process.env.E2E_TEST_PASSWORD;
+const email2 = process.env.E2E_TEST_EMAIL_2;
+const password2 = process.env.E2E_TEST_PASSWORD_2;
 
 test.describe('WealthPilot authentication', () => {
   test('auth gate renders and all authentication modes are reachable', async ({ page }) => {
@@ -44,13 +46,39 @@ test.describe('WealthPilot authentication', () => {
 
     await expect(page.locator('#appShell')).toBeVisible({ timeout: 15000 });
     await expect(page.locator('#publicGate')).toBeHidden();
+    await expect(page.locator('#accountEmail')).toHaveText(email);
 
     await page.reload();
     await expect(page.locator('#appShell')).toBeVisible({ timeout: 15000 });
     await expect(page.locator('#publicGate')).toBeHidden();
+    await expect(page.locator('#accountEmail')).toHaveText(email);
 
     await page.locator('#accountBtn').click();
     await expect(page.locator('#accountDropdown')).toBeVisible();
+    await expect(page.locator('#accountEmailDropdown')).toHaveText(email);
+    await page.locator('#logoutBtn').click();
+    await expect(page.locator('#publicGate')).toBeVisible({ timeout: 10000 });
+    await expect(page.locator('#appShell')).toBeHidden();
+  });
+
+  test('second test account can sign in independently and logout cleanly', async ({ page }) => {
+    test.skip(!email2 || !password2, 'E2E_TEST_EMAIL_2/E2E_TEST_PASSWORD_2 secrets are not configured');
+
+    await page.goto('/');
+    await page.locator('#authEmail').fill(email2);
+    await page.locator('#authPassword').fill(password2);
+    await page.locator('#authSubmit').click();
+
+    await expect(page.locator('#appShell')).toBeVisible({ timeout: 15000 });
+    await expect(page.locator('#publicGate')).toBeHidden();
+    await expect(page.locator('#accountEmail')).toHaveText(email2);
+
+    await page.reload();
+    await expect(page.locator('#appShell')).toBeVisible({ timeout: 15000 });
+    await expect(page.locator('#accountEmail')).toHaveText(email2);
+
+    await page.locator('#accountBtn').click();
+    await expect(page.locator('#accountEmailDropdown')).toHaveText(email2);
     await page.locator('#logoutBtn').click();
     await expect(page.locator('#publicGate')).toBeVisible({ timeout: 10000 });
     await expect(page.locator('#appShell')).toBeHidden();
