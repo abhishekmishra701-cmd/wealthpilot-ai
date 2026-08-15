@@ -76,8 +76,12 @@ test('OTP input is sanitized to six digits', async ({ page }) => {
   });
 
   const otp = page.locator('#otpCode');
-  await otp.fill('12a34-56789');
-  await otp.dispatchEvent('input');
+  // Set a deliberately invalid DOM value so maxlength does not truncate the
+  // fixture before the product's input sanitizer gets a chance to run.
+  await otp.evaluate((el) => {
+    el.value = '12a34-56789';
+    el.dispatchEvent(new Event('input', { bubbles: true }));
+  });
   await expect(otp).toHaveValue('123456');
 });
 
