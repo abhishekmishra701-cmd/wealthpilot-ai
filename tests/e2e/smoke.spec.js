@@ -12,15 +12,24 @@ test('public auth gate is visible and has all authentication modes', async ({ pa
 
 test('authentication tabs switch cleanly', async ({ page }) => {
   await page.goto('/');
+
   await page.locator('#authCreate').click();
   await expect(page.locator('#authCreate')).toHaveClass(/active/);
   await expect(page.locator('#authPassword')).toBeVisible();
+  await expect(page.locator('#passwordLabel')).toBeVisible();
+
   await page.locator('#authOtp').click();
   await expect(page.locator('#authOtp')).toHaveClass(/active/);
-  await expect(page.locator('#otpArea')).toBeVisible();
   await expect(page.locator('#authPassword')).toBeHidden();
+  await expect(page.locator('#passwordLabel')).toBeHidden();
+  // OTP entry is intentionally hidden until the OTP is successfully requested.
+  await expect(page.locator('#otpArea')).toBeHidden();
+  await expect(page.locator('#authSubmit')).toHaveText('Send OTP');
+
   await page.locator('#authSignIn').click();
   await expect(page.locator('#authSignIn')).toHaveClass(/active/);
+  await expect(page.locator('#authPassword')).toBeVisible();
+  await expect(page.locator('#forgotRow')).toBeVisible();
 });
 
 test('public page does not expose dashboard before authentication', async ({ page }) => {
