@@ -13,4 +13,5 @@ qsa("[data-action]").forEach(b=>b.addEventListener("click",()=>toast(b.dataset.a
 qsa(".suggestions button").forEach(b=>b.addEventListener("click",()=>{qs("#question").value=b.textContent;qs("#ask").click()}));
 qs("#ask").addEventListener("click",()=>{const q=qs("#question").value.trim();toast(q?`AI Advisor: "${q}" — personalized analysis will be connected in the next integration stage.`:"Type a question first.")});
 function toast(t){const x=qs("#toast");x.textContent=t;x.style.display="block";clearTimeout(window.__t);window.__t=setTimeout(()=>x.style.display="none",2600)}
+(function loadResponsiveFixes(){if(!document.querySelector('link[href="responsive-fixes.css"]')){const l=document.createElement("link");l.rel="stylesheet";l.href="responsive-fixes.css";document.head.appendChild(l)}})();
 refreshCurrency();
