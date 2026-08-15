@@ -103,7 +103,7 @@
     $(next === "signin" ? "authSignIn" : next === "signup" ? "authCreate" : "authOtp")
       ?.classList.add("active");
 
-    if (otpArea) otpArea.hidden = next !== "otp";
+    if (otpArea) otpArea.style.display = (next === "otp" && otpSent) ? "" : "none";
     if (passwordLabel) passwordLabel.style.display = next === "otp" ? "none" : "";
     if (forgotRow) forgotRow.style.display = next === "signin" ? "flex" : "none";
     if (password) {
@@ -202,7 +202,8 @@
         if (!otpSent) {
           await sendEmailOtp(address);
           otpSent = true;
-          otpArea.hidden = false;
+otpArea.hidden = false;
+otpArea.style.display = "";
           if (resend) resend.disabled = false;
           submit.textContent = "Verify OTP";
           setStatus("OTP sent. Check your email.", "success");
