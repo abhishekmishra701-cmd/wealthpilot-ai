@@ -48,7 +48,7 @@ async function sendEmailOtp(email) {
   const client = getSupabase();
   const { data, error } = await client.auth.signInWithOtp({
     email,
-    options: { shouldCreateUser: false }
+    options: { shouldCreateUser: true }
   });
   if (error) throw error;
   return data;
