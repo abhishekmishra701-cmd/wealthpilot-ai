@@ -114,7 +114,17 @@
 </section>
 
 <section id="portfolio" class="view">
-  <div class="sectionhead"><div><h1>Portfolio</h1><p class="muted">Holdings, performance and allocation</p></div><button class="primary" data-action="add">+ Add Investment</button></div>
+  <div class="sectionhead"><div><h1>Portfolio</h1><p class="muted">Holdings, performance and allocation</p></div><button class="primary" id="createPortfolioOpen">+ Create Portfolio</button></div>
+  <div id="portfolioDataStatus" class="data-status" role="status" aria-live="polite">Portfolio data will load from Supabase after sign-in.</div>
+  <div class="panel portfolio-manager" id="portfolioManager">
+    <div class="panelhead"><h2>Your Portfolios</h2><button class="textbtn" id="portfolioRefresh" type="button">Refresh</button></div>
+    <div id="portfolioList"><div class="empty" id="portfolioEmpty">No portfolios loaded yet.</div></div>
+    <form id="createPortfolioForm" class="inline-form" hidden>
+      <label>Portfolio name<input id="portfolioName" type="text" maxlength="80" placeholder="My Investments" required></label>
+      <label>Base currency<select id="portfolioCurrency"><option>INR</option><option>USD</option><option>EUR</option><option>GBP</option><option>AED</option></select></label>
+      <div class="form-actions"><button class="primary" id="createPortfolioBtn" type="submit">Create</button><button class="textbtn" id="createPortfolioCancel" type="button">Cancel</button></div>
+    </form>
+  </div>
   <div class="tabs"><button class="tab active" data-tab="holdings">Holdings</button><button class="tab" data-tab="performance">Performance</button><button class="tab" data-tab="allocation">Allocation</button><button class="tab" data-tab="transactions">Transactions</button></div>
   <div id="holdings" class="tabview active"><article class="panel"><div class="tablewrap"><table><thead><tr><th>Asset</th><th>Value</th><th>Return</th><th>Status</th></tr></thead><tbody>
   <tr><td>VOO</td><td class="money" data-inr="218400">₹2,18,400</td><td>+18.4%</td><td><span class="pill">Healthy</span></td></tr>
@@ -138,5 +148,16 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase.js"></script>
 <script src="app.js"></script>
+<script src="portfolio-data.js"></script>
 <script src="v33_6_auth.js"></script>
+<script>
+  document.getElementById('createPortfolioOpen')?.addEventListener('click', () => {
+    const form = document.getElementById('createPortfolioForm');
+    if (form) { form.hidden = false; document.getElementById('portfolioName')?.focus(); }
+  });
+  document.getElementById('createPortfolioCancel')?.addEventListener('click', () => {
+    const form = document.getElementById('createPortfolioForm');
+    if (form) form.hidden = true;
+  });
+</script>
 </body></html>
