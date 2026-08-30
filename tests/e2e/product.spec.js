@@ -12,82 +12,21 @@ async function signIn(page) {
 }
 
 test.describe('WealthPilot product baseline', () => {
-  test('dashboard loads with core wealth metrics', async ({ page }) => {
-    await signIn(page);
-    await expect(page.locator('#dashboard')).toBeVisible();
-    await expect(page.locator('#netWorth')).toBeVisible();
-    await expect(page.locator('#invested')).toBeVisible();
-    await expect(page.locator('#gain')).toBeVisible();
-  });
-
-  test('primary navigation switches dashboard, portfolio, goals and advisor', async ({ page }) => {
-    await signIn(page);
-    for (const view of ['portfolio', 'goals', 'advisor', 'dashboard']) {
-      await page.locator(`nav [data-view="${view}"]`).click();
-      await expect(page.locator(`#${view}`)).toHaveClass(/active/);
-    }
-  });
-
-  test('portfolio tabs switch cleanly', async ({ page }) => {
-    await signIn(page);
-    await page.locator('[data-view="portfolio"]').click();
-    for (const tab of ['holdings', 'performance', 'allocation', 'transactions']) {
-      await page.locator(`.tab[data-tab="${tab}"]`).click();
-      await expect(page.locator(`#${tab}`)).toHaveClass(/active/);
-    }
-  });
-
-  test('currency selector recalculates visible money values', async ({ page }) => {
-    await signIn(page);
-    const netWorth = page.locator('#netWorth');
-    await expect(netWorth).toContainText('₹');
-    await page.locator('#currency').selectOption('USD');
-    await expect(netWorth).toContainText('$');
-    await page.locator('#currency').selectOption('EUR');
-    await expect(netWorth).toContainText('€');
-    await page.locator('#currency').selectOption('INR');
-    await expect(netWorth).toContainText('₹');
-  });
-
-  test('language selector updates dashboard labels', async ({ page }) => {
-    await signIn(page);
-    await page.locator('#lang').selectOption('hi');
-    await expect(page.locator('[data-i18n="welcome"]')).toHaveText('आपका पूरा वेल्थ ओवरव्यू');
-    await expect(page.locator('[data-i18n="dashboard"]')).toHaveText('पोर्टफोलियो डैशबोर्ड');
-    await page.locator('#lang').selectOption('en');
-    await expect(page.locator('[data-i18n="dashboard"]')).toHaveText('Portfolio Dashboard');
-  });
-
-  test('AI advisor validates empty question and accepts a question', async ({ page }) => {
-    await signIn(page);
-    await page.locator('[data-view="advisor"]').click();
-    await page.locator('#ask').click();
-    await expect(page.locator('#toast')).toHaveText('Type a question first.');
-    await page.locator('#question').fill('Review my portfolio');
-    await page.locator('#ask').click();
-    await expect(page.locator('#toast')).toContainText('AI Advisor: "Review my portfolio"');
-  });
-
-  test('account menu exposes secure logout', async ({ page }) => {
-    await signIn(page);
-    await page.locator('#accountBtn').click();
-    await expect(page.locator('#accountDropdown')).toBeVisible();
-    await expect(page.locator('#logoutBtn')).toBeVisible();
-  });
-
-  test('create portfolio persists in Supabase and survives reload', async ({ page }) => {
-    await signIn(page);
-    await page.locator('[data-view="portfolio"]').click();
-    const name = `E2E Portfolio ${Date.now()}`;
-    await page.locator('#createPortfolioOpen').click();
-    await page.locator('#portfolioName').fill(name);
-    await page.locator('#portfolioCurrency').selectOption('INR');
-    await page.locator('#createPortfolioBtn').click();
-    await expect(page.locator('#portfolioList')).toContainText(name, { timeout: 15000 });
-    await expect(page.locator('#portfolioDataStatus')).toContainText('loaded from Supabase');
-    await page.reload();
-    await expect(page.locator('#appShell')).toBeVisible({ timeout: 15000 });
-    await page.locator('[data-view="portfolio"]').click();
-    await expect(page.locator('#portfolioList')).toContainText(name, { timeout: 15000 });
+  test('dashboard loads with core wealth metrics', async ({ page }) => { await signIn(page); await expect(page.locator('#dashboard')).toBeVisible(); await expect(page.locator('#netWorth')).toBeVisible(); await expect(page.locator('#invested')).toBeVisible(); await expect(page.locator('#gain')).toBeVisible(); });
+  test('primary navigation switches dashboard, portfolio, goals and advisor', async ({ page }) => { await signIn(page); for (const view of ['portfolio','goals','advisor','dashboard']) { await page.locator(`nav [data-view="${view}"]`).click(); await expect(page.locator(`#${view}`)).toHaveClass(/active/); } });
+  test('portfolio tabs switch cleanly', async ({ page }) => { await signIn(page); await page.locator('[data-view="portfolio"]').click(); for (const tab of ['holdings','performance','allocation','transactions']) { await page.locator(`.tab[data-tab="${tab}"]`).click(); await expect(page.locator(`#${tab}`)).toHaveClass(/active/); } });
+  test('currency selector recalculates visible money values', async ({ page }) => { await signIn(page); const netWorth=page.locator('#netWorth'); await expect(netWorth).toContainText('₹'); await page.locator('#currency').selectOption('USD'); await expect(netWorth).toContainText('$'); await page.locator('#currency').selectOption('EUR'); await expect(netWorth).toContainText('€'); await page.locator('#currency').selectOption('INR'); await expect(netWorth).toContainText('₹'); });
+  test('language selector updates dashboard labels', async ({ page }) => { await signIn(page); await page.locator('#lang').selectOption('hi'); await expect(page.locator('[data-i18n="welcome"]')).toHaveText('आपका पूरा वेल्थ ओवरव्यू'); await expect(page.locator('[data-i18n="dashboard"]')).toHaveText('पोर्टफोलियो डैशबोर्ड'); await page.locator('#lang').selectOption('en'); await expect(page.locator('[data-i18n="dashboard"]')).toHaveText('Portfolio Dashboard'); });
+  test('AI advisor validates empty question and accepts a question', async ({ page }) => { await signIn(page); await page.locator('[data-view="advisor"]').click(); await page.locator('#ask').click(); await expect(page.locator('#toast')).toHaveText('Type a question first.'); await page.locator('#question').fill('Review my portfolio'); await page.locator('#ask').click(); await expect(page.locator('#toast')).toContainText('AI Advisor: "Review my portfolio"'); });
+  test('account menu exposes secure logout', async ({ page }) => { await signIn(page); await page.locator('#accountBtn').click(); await expect(page.locator('#accountDropdown')).toBeVisible(); await expect(page.locator('#logoutBtn')).toBeVisible(); });
+  test('create portfolio persists in Supabase and survives reload', async ({ page }) => { await signIn(page); await page.locator('[data-view="portfolio"]').click(); const name=`E2E Portfolio ${Date.now()}`; await page.locator('#createPortfolioOpen').click(); await page.locator('#portfolioName').fill(name); await page.locator('#portfolioCurrency').selectOption('INR'); await page.locator('#createPortfolioBtn').click(); await expect(page.locator('#portfolioList')).toContainText(name,{timeout:15000}); await expect(page.locator('#portfolioDataStatus')).toContainText('loaded from Supabase'); await page.reload(); await expect(page.locator('#appShell')).toBeVisible({timeout:15000}); await page.locator('[data-view="portfolio"]').click(); await expect(page.locator('#portfolioList')).toContainText(name,{timeout:15000}); });
+  test('create transaction persists in Supabase and survives reload', async ({ page }) => {
+    await signIn(page); await page.locator('[data-view="portfolio"]').click();
+    const portfolio = page.locator('.portfolio-row').first(); await expect(portfolio).toBeVisible({timeout:15000}); await portfolio.click();
+    await page.locator('[data-tab="transactions"]').click(); await page.locator('#addTransactionOpen').click();
+    const symbol = `E2E${Date.now().toString().slice(-6)}`; const date = '2026-08-30';
+    await page.locator('#transactionSymbol').fill(symbol); await page.locator('#transactionType').selectOption('BUY'); await page.locator('#transactionQuantity').fill('3'); await page.locator('#transactionPrice').fill('1250'); await page.locator('#transactionCurrency').selectOption('INR'); await page.locator('#transactionDate').fill(date); await page.locator('#addTransactionBtn').click();
+    await expect(page.locator('#transactionList')).toContainText(symbol,{timeout:15000}); await expect(page.locator('#portfolioDataStatus')).toContainText('created successfully in Supabase');
+    await page.reload(); await expect(page.locator('#appShell')).toBeVisible({timeout:15000}); await page.locator('[data-view="portfolio"]').click(); await page.locator('.portfolio-row').first().click(); await page.locator('[data-tab="transactions"]').click(); await expect(page.locator('#transactionList')).toContainText(symbol,{timeout:15000});
   });
 });
