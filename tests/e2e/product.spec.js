@@ -1,9 +1,7 @@
 const { test, expect } = require('@playwright/test');
 
-async function signIn(page) {
-  const email = process.env.E2E_TEST_EMAIL;
-  const password = process.env.E2E_TEST_PASSWORD;
-  test.skip(!email || !password, 'E2E_TEST_EMAIL/E2E_TEST_PASSWORD secrets are not configured');
+async function signIn(page, email = process.env.E2E_TEST_EMAIL, password = process.env.E2E_TEST_PASSWORD) {
+  test.skip(!email || !password, 'E2E credentials are not configured');
   await page.goto('/');
   await page.locator('#authEmail').fill(email);
   await page.locator('#authPassword').fill(password);
@@ -20,13 +18,11 @@ test.describe('WealthPilot product baseline', () => {
   test('AI advisor validates empty question and accepts a question', async ({ page }) => { await signIn(page); await page.locator('[data-view="advisor"]').click(); await page.locator('#ask').click(); await expect(page.locator('#toast')).toHaveText('Type a question first.'); await page.locator('#question').fill('Review my portfolio'); await page.locator('#ask').click(); await expect(page.locator('#toast')).toContainText('AI Advisor: "Review my portfolio"'); });
   test('account menu exposes secure logout', async ({ page }) => { await signIn(page); await page.locator('#accountBtn').click(); await expect(page.locator('#accountDropdown')).toBeVisible(); await expect(page.locator('#logoutBtn')).toBeVisible(); });
   test('create portfolio persists in Supabase and survives reload', async ({ page }) => { await signIn(page); await page.locator('[data-view="portfolio"]').click(); const name=`E2E Portfolio ${Date.now()}`; await page.locator('#createPortfolioOpen').click(); await page.locator('#portfolioName').fill(name); await page.locator('#portfolioCurrency').selectOption('INR'); await page.locator('#createPortfolioBtn').click(); await expect(page.locator('#portfolioList')).toContainText(name,{timeout:15000}); await expect(page.locator('#portfolioDataStatus')).toContainText('loaded from Supabase'); await page.reload(); await expect(page.locator('#appShell')).toBeVisible({timeout:15000}); await page.locator('[data-view="portfolio"]').click(); await expect(page.locator('#portfolioList')).toContainText(name,{timeout:15000}); });
-  test('create transaction persists in Supabase and survives reload', async ({ page }) => {
-    await signIn(page); await page.locator('[data-view="portfolio"]').click();
-    const portfolio = page.locator('.portfolio-row').first(); await expect(portfolio).toBeVisible({timeout:15000}); await portfolio.click();
-    await page.locator('[data-tab="transactions"]').click(); await page.locator('#addTransactionOpen').click();
-    const symbol = `E2E${Date.now().toString().slice(-6)}`; const date = '2026-08-30';
-    await page.locator('#transactionSymbol').fill(symbol); await page.locator('#transactionType').selectOption('BUY'); await page.locator('#transactionQuantity').fill('3'); await page.locator('#transactionPrice').fill('1250'); await page.locator('#transactionCurrency').selectOption('INR'); await page.locator('#transactionDate').fill(date); await page.locator('#addTransactionBtn').click();
-    await expect(page.locator('#transactionList')).toContainText(symbol,{timeout:15000}); await expect(page.locator('#portfolioDataStatus')).toContainText('created successfully in Supabase');
-    await page.reload(); await expect(page.locator('#appShell')).toBeVisible({timeout:15000}); await page.locator('[data-view="portfolio"]').click(); await page.locator('.portfolio-row').first().click(); await page.locator('[data-tab="transactions"]').click(); await expect(page.locator('#transactionList')).toContainText(symbol,{timeout:15000});
+  test('create transaction persists in Supabase and survives reload', async ({ page }) => { await signIn(page); await page.locator('[data-view="portfolio"]').click(); const portfolio=page.locator('.portfolio-row').first(); await expect(portfolio).toBeVisible({timeout:15000}); await portfolio.click(); await page.locator('[data-tab="transactions"]').click(); await page.locator('#addTransactionOpen').click(); const symbol=`E2E${Date.now().toString().slice(-6)}`; await page.locator('#transactionSymbol').fill(symbol); await page.locator('#transactionType').selectOption('BUY'); await page.locator('#transactionQuantity').fill('3'); await page.locator('#transactionPrice').fill('1250'); await page.locator('#transactionCurrency').selectOption('INR'); await page.locator('#transactionDate').fill('2026-08-30'); await page.locator('#addTransactionBtn').click(); await expect(page.locator('#transactionList')).toContainText(symbol,{timeout:15000}); await page.reload(); await expect(page.locator('#appShell')).toBeVisible({timeout:15000}); await page.locator('[data-view="portfolio"]').click(); await page.locator('.portfolio-row').first().click(); await page.locator('[data-tab="transactions"]').click(); await expect(page.locator('#transactionList')).toContainText(symbol,{timeout:15000}); });
+  test('create goal persists in Supabase and survives reload', async ({ page }) => {
+    await signIn(page); await page.locator('[data-view="goals"]').click(); const name=`E2E Goal ${Date.now()}`;
+    await page.locator('#goalOpen').click(); await page.locator('#goalName').fill(name); await page.locator('#goalAmount').fill('500000'); await page.locator('#goalCurrency').selectOption('INR'); await page.locator('#goalDate').fill('2035-12-31'); await page.locator('#goalSave').click();
+    await expect(page.locator('#goalGrid')).toContainText(name,{timeout:15000}); await expect(page.locator('#goalDataStatus')).toContainText('created successfully in Supabase');
+    await page.reload(); await expect(page.locator('#appShell')).toBeVisible({timeout:15000}); await page.locator('[data-view="goals"]').click(); await expect(page.locator('#goalGrid')).toContainText(name,{timeout:15000});
   });
 });
