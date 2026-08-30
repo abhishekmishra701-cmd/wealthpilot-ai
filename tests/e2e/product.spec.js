@@ -74,4 +74,20 @@ test.describe('WealthPilot product baseline', () => {
     await expect(page.locator('#accountDropdown')).toBeVisible();
     await expect(page.locator('#logoutBtn')).toBeVisible();
   });
+
+  test('create portfolio persists in Supabase and survives reload', async ({ page }) => {
+    await signIn(page);
+    await page.locator('[data-view="portfolio"]').click();
+    const name = `E2E Portfolio ${Date.now()}`;
+    await page.locator('#createPortfolioOpen').click();
+    await page.locator('#portfolioName').fill(name);
+    await page.locator('#portfolioCurrency').selectOption('INR');
+    await page.locator('#createPortfolioBtn').click();
+    await expect(page.locator('#portfolioList')).toContainText(name, { timeout: 15000 });
+    await expect(page.locator('#portfolioDataStatus')).toContainText('loaded from Supabase');
+    await page.reload();
+    await expect(page.locator('#appShell')).toBeVisible({ timeout: 15000 });
+    await page.locator('[data-view="portfolio"]').click();
+    await expect(page.locator('#portfolioList')).toContainText(name, { timeout: 15000 });
+  });
 });
